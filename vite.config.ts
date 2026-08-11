@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 // Set to match wherever this repo is published on GitHub Pages
 // (https://<user>.github.io/<repo>/ -> base must be '/<repo>/'). Change this
 // one constant if the repo is renamed or moved.
-const GITHUB_PAGES_BASE = '/map-maker/'
+const GITHUB_PAGES_BASE = '/Map-Maker/'
 
 // https://vite.dev/config/
 export default defineConfig({

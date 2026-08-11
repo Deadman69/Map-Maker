@@ -1,0 +1,229 @@
+.editor-view {
+  flex-direction: row;
+}
+
+.editor-sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--border);
+  background: var(--panel-bg);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+}
+
+.editor-sidebar h2 {
+  font-size: 14px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 16px;
+}
+
+.editor-sidebar h2:first-child {
+  margin-top: 0;
+}
+
+.basemap-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.basemap-list button {
+  text-align: left;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+}
+
+.basemap-list button.active {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--panel-bg));
+  font-weight: 600;
+}
+
+.split-hint {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: -4px 0 4px;
+}
+
+.base-etape-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.base-etape-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.base-etape-name {
+  flex: 1;
+  min-width: 0;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  font: inherit;
+  color: var(--text);
+}
+
+.base-etape-name:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+.reorder-buttons {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.reorder-buttons button {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  line-height: 1;
+}
+
+.reset-splits-button {
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  font-size: 13px;
+}
+
+.reset-splits-button:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.etape-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.etape-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+}
+
+.etape-row-main {
+  display: flex;
+  justify-content: space-between;
+}
+
+.etape-list span,
+.elevation-badge {
+  color: var(--text-muted);
+}
+
+.elevation-badge {
+  font-size: 12px;
+}
+
+.whole-hike-elevation {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+}
+
+.continue-button {
+  margin-top: auto;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font-weight: 600;
+}
+
+.continue-button:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.editor-map {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+}
+
+.toggle-profile-button {
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  font-size: 13px;
+}
+
+.toggle-profile-button:hover {
+  border-color: var(--accent);
+}
+
+.poi-type-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.poi-type-list button {
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg);
+  font-size: 12px;
+}
+
+.poi-type-list button.active {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--panel-bg));
+  font-weight: 600;
+}
+
+.poi-cancel-placement {
+  padding: 2px 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg);
+  font-size: 11px;
+}
+
+@media (max-width: 900px) {
+  .editor-view {
+    flex-direction: column;
+  }
+
+  .editor-sidebar {
+    width: 100%;
+    max-height: 50vh;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .editor-map {
+    min-height: 300px;
+  }
+}

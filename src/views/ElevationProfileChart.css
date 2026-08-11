@@ -1,0 +1,55 @@
+.elevation-chart {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.elevation-chart svg {
+  width: 100%;
+  height: 160px;
+  display: block;
+}
+
+.elevation-chart-line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+
+.elevation-chart-boundary {
+  stroke: #999999;
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+
+.elevation-chart-label {
+  font-size: 9px;
+  fill: var(--text-muted);
+}
+
+.elevation-chart-summary {
+  margin: 4px 0 0;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.elevation-chart-empty {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13px;
+}

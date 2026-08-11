@@ -1,0 +1,30 @@
+.resume-session-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 20px;
+  background: color-mix(in srgb, var(--accent) 10%, var(--panel-bg));
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.resume-session-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.resume-session-actions button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--panel-bg);
+  font-size: 13px;
+}
+
+.resume-session-actions button.primary {
+  background: var(--accent);
+  color: var(--accent-contrast);
+  border-color: var(--accent);
+}

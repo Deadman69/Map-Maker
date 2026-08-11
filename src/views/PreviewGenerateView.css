@@ -1,0 +1,23 @@
+.generate-button {
+  padding: 14px 28px;
+  border-radius: 8px;
+  border: none;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.generate-button:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.generate-status {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.generate-success {
+  color: var(--accent);
+  font-weight: 600;
+}

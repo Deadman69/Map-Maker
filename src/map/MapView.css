@@ -1,0 +1,85 @@
+.basemap-error-banner {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 80%;
+  background: #fdecea;
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  text-align: center;
+  z-index: 10;
+}
+
+.poi-placing-banner {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 80%;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  text-align: center;
+  z-index: 10;
+}
+
+.poi-popup {
+  position: absolute;
+}
+
+.poi-popup-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  white-space: nowrap;
+}
+
+.poi-popup-glyph {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.poi-popup-label {
+  width: 120px;
+  padding: 4px 6px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-size: 13px;
+}
+
+.poi-popup-delete {
+  padding: 4px 8px;
+  border: 1px solid var(--danger);
+  border-radius: 5px;
+  background: var(--bg);
+  color: var(--danger);
+  font-size: 12px;
+}
+
+.poi-popup-close {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+  text-align: center;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--panel-bg);
+  font-size: 12px;
+  cursor: pointer;
+}

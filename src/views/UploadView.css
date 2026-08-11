@@ -1,0 +1,129 @@
+.upload-view {
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+  overflow-y: auto;
+}
+
+.upload-page {
+  max-width: 640px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.upload-page > h1 {
+  margin-bottom: 12px;
+}
+
+.intro-block {
+  background: color-mix(in srgb, var(--accent) 6%, var(--panel-bg));
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+
+.intro-free {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.intro-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+  counter-reset: step;
+}
+
+.intro-steps li {
+  counter-increment: step;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px 12px 4px 8px;
+  font-size: 13px;
+}
+
+.intro-steps li::before {
+  content: counter(step) '. ';
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.intro-privacy {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-top: 12px;
+  margin-bottom: 0;
+}
+
+.upload-card {
+  width: 100%;
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px;
+}
+
+.upload-hint {
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.mode-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.mode-toggle button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  text-align: left;
+}
+
+.mode-toggle button.active {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, var(--panel-bg));
+}
+
+.mode-toggle small {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.dropzone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  border: 2px dashed var(--border);
+  border-radius: 10px;
+  color: var(--text-muted);
+  cursor: pointer;
+  text-align: center;
+  padding: 16px;
+}
+
+.dropzone:hover {
+  border-color: var(--accent);
+}
+
+.dropzone input {
+  display: none;
+}
+
+.upload-error {
+  margin-top: 14px;
+  color: var(--danger);
+}

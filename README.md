@@ -1,32 +1,45 @@
-# React + TypeScript + Vite
+# MapMaker
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+**Génère des cartes de randonnée prêtes à imprimer à partir d'une trace GPX — 100 % gratuit, 100 % dans le navigateur.**
 
-Currently, two official plugins are available:
+🔗 **[deadman69.github.io/Map-Maker](https://deadman69.github.io/Map-Maker/)**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## En bref
 
-## React Compiler
+MapMaker transforme une trace GPX de randonnée en un pack PDF prêt à imprimer : une vue d'ensemble de l'itinéraire et des cartes détaillées à l'échelle de votre choix, sur fond IGN (Plan, Orthophoto, SCAN 25) ou OpenStreetMap/OpenTopoMap.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Tout se passe dans votre navigateur : aucun compte, aucune limite d'utilisation, et votre trace n'est jamais envoyée à un serveur. Les seuls appels réseau servent à récupérer les fonds de carte.
 
-## Expanding the Oxlint configuration
+## Fonctionnalités
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+- **Import GPX** — un seul fichier continu (découpage manuel à la carte) ou un fichier par jour/étape.
+- **Renommage et réordonnancement** des jours/étapes, avec dénivelé (D+/D−) et profil altimétrique.
+- **Points d'intérêt** — points d'eau, refuges, points de vue, campings, départs, dangers, points nommés : à placer, déplacer et renommer directement sur la carte.
+- **Export configurable** — format papier (A4/A3), orientation, échelle graphique (niveau personnalisable), recto-verso, traits de pliage en accordéon façon carte IGN, orientation "nord en haut" ou "suit la trace".
+- **Pack complet** — vue d'ensemble + profil altimétrique + cartes détaillées, en un seul PDF.
+- **Bilingue** — français / anglais, détecté automatiquement depuis le navigateur (drapeau pour changer).
+- **Aucune donnée envoyée** — tout le calcul, le rendu de carte et la génération de PDF se font côté client.
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+## Comment ça marche
+
+1. **Trace GPX** — importez votre fichier (ou plusieurs, un par jour).
+2. **Étapes & fond de carte** — ajustez les coupures, renommez les jours, choisissez le fond de carte, ajoutez des points d'intérêt.
+3. **Format d'export** — papier, échelle, recto-verso, pliage...
+4. **Génération** — téléchargez le pack PDF complet.
+
+## Stack technique
+
+React 19 + TypeScript + Vite, [OpenLayers](https://openlayers.org/) pour le rendu cartographique (WMTS IGN Géoplateforme, XYZ), [jsPDF](https://github.com/parallax/jsPDF) pour la génération du PDF. Aucun backend : le site est un simple bundle statique déployé sur GitHub Pages.
+
+## Développement local
+
+```bash
+npm install
+npm run dev      # serveur de dev (http://localhost:5194)
+npm run build    # build de production
+npm run test     # tests unitaires (Vitest)
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Déploiement
+
+Le site est déployé automatiquement sur GitHub Pages via GitHub Actions (`.github/workflows/deploy.yml`) à chaque push sur `main`.

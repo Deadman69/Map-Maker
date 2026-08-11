@@ -12,6 +12,11 @@
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
+  /* entrances, presses */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  /* on-screen morphs (height, chevrons) */
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+
   font: 15px/1.45 var(--sans);
   color: var(--text);
   background: var(--bg);
@@ -43,11 +48,26 @@ h1, h2, h3 {
 button {
   font: inherit;
   cursor: pointer;
+  transition: transform 160ms var(--ease-out);
+}
+
+button:active:not(:disabled) {
+  transform: scale(0.97);
 }
 
 button:disabled {
   cursor: not-allowed;
   opacity: 0.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button {
+    transition: none;
+  }
+
+  button:active:not(:disabled) {
+    transform: none;
+  }
 }
 
 input, select {

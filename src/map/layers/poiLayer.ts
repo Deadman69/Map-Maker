@@ -38,9 +38,21 @@ export function poiGlyph(poi: PointOfInterest): string {
   return visualFor(poi).glyph
 }
 
+export function poiColor(poi: PointOfInterest): string {
+  return visualFor(poi).color
+}
+
 function poiStyle(poi: PointOfInterest): Style {
   const visual = visualFor(poi)
   const glyph = poiGlyph(poi)
+  // Any type can be named (not just namedPoint) — a dashed outline is a
+  // quiet, constant reminder that a point is waiting for a name, until it
+  // gets one and the outline turns solid.
+  const stroke = new Stroke({
+    color: '#ffffff',
+    width: 2,
+    lineDash: poi.label ? undefined : [2, 2],
+  })
 
   if (poi.type === 'danger') {
     return new Style({
@@ -48,7 +60,7 @@ function poiStyle(poi: PointOfInterest): Style {
         points: 3,
         radius: 11,
         fill: new Fill({ color: visual.color }),
-        stroke: new Stroke({ color: '#ffffff', width: 2 }),
+        stroke,
       }),
       text: new Text({
         text: glyph,
@@ -63,7 +75,7 @@ function poiStyle(poi: PointOfInterest): Style {
     image: new CircleStyle({
       radius: 10,
       fill: new Fill({ color: visual.color }),
-      stroke: new Stroke({ color: '#ffffff', width: 2 }),
+      stroke,
     }),
     text: new Text({
       text: glyph,

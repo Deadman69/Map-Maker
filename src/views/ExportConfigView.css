@@ -33,6 +33,10 @@
   align-items: center;
 }
 
+.button-row + .button-row {
+  margin-top: 10px;
+}
+
 .button-row button {
   padding: 8px 14px;
   border: 1px solid var(--border);

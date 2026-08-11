@@ -3,9 +3,10 @@ import MapView from '../map/MapView'
 import { BASEMAPS } from '../map/basemaps'
 import { useAppDispatch, useAppState } from '../state/AppContext'
 import { useTranslation } from '../i18n/LanguageContext'
-import type { Etape, Hike, PoiType } from '../state/types'
+import type { Etape, Hike, PoiType, PointOfInterest } from '../state/types'
 import type { Translator } from '../i18n/types'
 import { computeElevationGainLoss, computeEtapeElevation } from '../gpx/elevation'
+import { poiColor, poiGlyph } from '../map/layers/poiLayer'
 import ElevationProfileChart from './ElevationProfileChart'
 import './MapEditorView.css'
 
@@ -135,6 +136,21 @@ export default function MapEditorView() {
             </button>
           </p>
         )}
+        {state.pois.length > 0 ? (
+          <ul className="poi-list">
+            {state.pois.map((poi) => (
+              <PoiRow
+                key={poi.id}
+                poi={poi}
+                t={t}
+                onRename={(label) => dispatch({ type: 'RENAME_POI', id: poi.id, label })}
+                onDelete={() => dispatch({ type: 'DELETE_POI', id: poi.id })}
+              />
+            ))}
+          </ul>
+        ) : (
+          hike && <p className="split-hint">{t('editor.poi.emptyHint')}</p>
+        )}
 
         <button
           className="continue-button"
@@ -194,6 +210,47 @@ function BaseEtapeRow({
           </button>
         </div>
       )}
+    </li>
+  )
+}
+
+function PoiRow({
+  poi,
+  t,
+  onRename,
+  onDelete,
+}: {
+  poi: PointOfInterest
+  t: Translator['t']
+  onRename: (label: string) => void
+  onDelete: () => void
+}) {
+  const [name, setName] = useState(poi.label ?? '')
+
+  function commit() {
+    const trimmed = name.trim()
+    if (trimmed !== (poi.label ?? '')) onRename(trimmed)
+  }
+
+  return (
+    <li className="poi-row">
+      <span className="poi-row-glyph" style={{ color: poiColor(poi) }}>
+        {poiGlyph(poi)}
+      </span>
+      <input
+        className="poi-row-name"
+        value={name}
+        maxLength={40}
+        placeholder={t('editor.poi.labelPlaceholder')}
+        onChange={(e) => setName(e.target.value)}
+        onBlur={commit}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') commit()
+        }}
+      />
+      <button type="button" className="poi-row-delete" aria-label={t('editor.poi.delete')} onClick={onDelete}>
+        ×
+      </button>
     </li>
   )
 }

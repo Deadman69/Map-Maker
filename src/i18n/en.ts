@@ -50,11 +50,13 @@ export const en: Dictionary = {
   'editor.poi.trailhead': 'Trailhead',
   'editor.poi.danger': 'Danger',
   'editor.poi.namedPoint': 'Named point',
-  'editor.poi.placingHint': 'Click the map to place the point, or press Escape to cancel.',
+  'editor.poi.placingHint':
+    "Click the map to place the point (you'll be able to name it right after), or press Escape to cancel.",
   'editor.poi.labelPlaceholder': 'Name (optional)',
   'editor.poi.delete': 'Delete',
   'editor.poi.cancelPlacement': 'Cancel',
   'editor.poi.close': 'Close',
+  'editor.poi.emptyHint': 'No points yet — pick a type above, then click the map.',
 
   'exportConfig.title': 'Export format',
   'exportConfig.paperTitle': 'Paper',
@@ -116,6 +118,7 @@ export const en: Dictionary = {
 
   'common.elevationBadge': (v) => `+${v.gain} m / -${v.loss} m`,
   'common.elevationSummary': (v) => `Whole hike: +${v.gain} m / -${v.loss} m`,
+  'common.advancedSettings': 'Advanced settings',
 
   'pdf.overviewLabel': 'Overview',
   'pdf.overviewLabelPaged': (v) => `Overview ${v.i}/${v.total}`,

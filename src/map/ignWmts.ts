@@ -4,6 +4,7 @@ import type { Options as WMTSOptions } from 'ol/source/WMTS'
 import WMTSTileGrid from 'ol/tilegrid/WMTS'
 import { getTopLeft, getWidth } from 'ol/extent'
 import { get as getProjection } from 'ol/proj'
+import { createBlackTileGuardLoadFunction } from './tileValidation'
 
 const FREE_CAPABILITIES_URL = 'https://data.geopf.fr/wmts?SERVICE=WMTS&REQUEST=GetCapabilities&VERSION=1.0.0'
 const SCAN_CAPABILITIES_URL =
@@ -95,6 +96,10 @@ export async function createIgnWmtsLayer(
   // "tainted canvas" — data.geopf.fr sends a matching
   // Access-Control-Allow-Origin header, so this is safe.
   sourceOptions.crossOrigin = 'anonymous'
+  // Guards against IGN answering a bad request (expired/invalid transitional
+  // key, unsupported zoom/matrix) with HTTP 200 and an opaque black tile —
+  // see tileValidation.ts.
+  sourceOptions.tileLoadFunction = createBlackTileGuardLoadFunction()
 
   return new WMTS(sourceOptions)
 }
@@ -135,6 +140,7 @@ function createIgnWmtsLayerStatic(
     }),
     style: 'normal',
     crossOrigin: 'anonymous',
+    tileLoadFunction: createBlackTileGuardLoadFunction(),
   })
 }
 

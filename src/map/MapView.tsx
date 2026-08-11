@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, type MutableRefObject } from 'react'
 import { createPortal } from 'react-dom'
 import Map from 'ol/Map'
 import View from 'ol/View'
@@ -53,6 +53,11 @@ export default function MapView({
   const poiLayerRef = useRef<VectorLayer<VectorSource> | null>(null)
   const [basemapError, setBasemapError] = useState<string | null>(null)
   const [selectedPoiId, setSelectedPoiId] = useState<string | null>(null)
+  /** True only for the render right after a fresh placement — lets the
+   * popup auto-focus its name field without also stealing focus every time
+   * an existing marker is merely re-selected. */
+  const justPlacedRef = useRef(false)
+  const popupInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (!containerRef.current) return
@@ -69,7 +74,6 @@ export default function MapView({
     })
     overlayRef.current = overlay
     map.addOverlay(overlay)
-    ;(window as unknown as { __mmDebugMap?: Map }).__mmDebugMap = map
     return () => {
       map.setTarget(undefined)
     }
@@ -137,10 +141,13 @@ export default function MapView({
     if (!map || !placingType) return
     function handleClick(evt: MapBrowserEvent) {
       const { lon, lat } = lonLatFromFeatureCoordinate(evt.coordinate)
-      dispatch({
-        type: 'ADD_POI',
-        poi: { id: crypto.randomUUID(), type: placingType!, lon, lat },
-      })
+      const id = crypto.randomUUID()
+      dispatch({ type: 'ADD_POI', poi: { id, type: placingType!, lon, lat } })
+      // Both updates are batched into the same render, so `selectedPoi`
+      // (derived from state.pois below) already resolves correctly here —
+      // no extra click needed to discover the naming popup.
+      justPlacedRef.current = true
+      setSelectedPoiId(id)
       onPlaced()
     }
     map.on('click', handleClick)
@@ -189,8 +196,21 @@ export default function MapView({
 
   const selectedPoi = state.pois.find((p) => p.id === selectedPoiId) ?? null
 
-  useEffect(() => {
+  // Positioning AND the post-placement autofocus both happen here, in this
+  // order, in one effect — deliberately not split across this component
+  // and the popup's own mount effect. React runs child layout effects
+  // *before* their parent's, so putting the focus call in the popup child
+  // wouldn't help even as a layout effect: it would still fire before this
+  // sets the overlay's position, and OL's Overlay keeps its element
+  // display:none until setPosition() gives it a real coordinate — focusing
+  // an input inside a still-hidden container silently fails.
+  useLayoutEffect(() => {
     overlayRef.current?.setPosition(selectedPoi ? fromLonLat([selectedPoi.lon, selectedPoi.lat]) : undefined)
+    if (selectedPoi && justPlacedRef.current) {
+      justPlacedRef.current = false
+      popupInputRef.current?.focus()
+      popupInputRef.current?.select()
+    }
   }, [selectedPoi])
 
   return (
@@ -201,8 +221,10 @@ export default function MapView({
       {createPortal(
         selectedPoi && (
           <PoiPopupContent
+            key={selectedPoi.id}
             poi={selectedPoi}
             t={t}
+            inputRef={popupInputRef}
             onRename={(label) => dispatch({ type: 'RENAME_POI', id: selectedPoi.id, label })}
             onDelete={() => {
               dispatch({ type: 'DELETE_POI', id: selectedPoi.id })
@@ -220,12 +242,14 @@ export default function MapView({
 function PoiPopupContent({
   poi,
   t,
+  inputRef,
   onRename,
   onDelete,
   onClose,
 }: {
   poi: PointOfInterest
   t: Translator['t']
+  inputRef: MutableRefObject<HTMLInputElement | null>
   onRename: (label: string) => void
   onDelete: () => void
   onClose: () => void
@@ -238,11 +262,12 @@ function PoiPopupContent({
 
   return (
     <div className="poi-popup-content">
-      <button type="button" className="poi-popup-close" onClick={onClose} aria-label={t('exportConfig.back')}>
+      <button type="button" className="poi-popup-close" onClick={onClose} aria-label={t('editor.poi.close')}>
         ×
       </button>
       <span className="poi-popup-glyph">{poiGlyph(poi)}</span>
       <input
+        ref={inputRef}
         className="poi-popup-label"
         value={label}
         maxLength={40}

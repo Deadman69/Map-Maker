@@ -4,6 +4,7 @@ import XYZ from 'ol/source/XYZ'
 import type BaseLayer from 'ol/layer/Base'
 import type { BasemapConfig } from '../state/types'
 import { createIgnWmtsLayerSafe } from './ignWmts'
+import { createBlackTileGuardLoadFunction } from './tileValidation'
 
 /**
  * Config-driven basemap list — adding/removing a basemap should only require
@@ -65,6 +66,10 @@ export async function createBasemapLayer(config: BasemapConfig): Promise<BaseLay
           // not throw "tainted canvas" — the tile server does send the
           // matching Access-Control-Allow-Origin header, so this is safe.
           crossOrigin: 'anonymous',
+          // Same black-placeholder-tile guard as the IGN WMTS sources (see
+          // tileValidation.ts) — cheap insurance against any tile server
+          // answering 200 OK with a broken/blank image.
+          tileLoadFunction: createBlackTileGuardLoadFunction(),
         }),
       })
     case 'wmts': {

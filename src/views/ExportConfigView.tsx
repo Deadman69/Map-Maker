@@ -2,7 +2,9 @@ import { useMemo } from 'react'
 import { useAppDispatch, useAppState } from '../state/AppContext'
 import { useTranslation } from '../i18n/LanguageContext'
 import type { ExportConfig } from '../state/types'
+import { defaultExportConfig } from '../state/appReducer'
 import { buildLabeledPages } from '../export/buildLabeledPages'
+import AdvancedSection from './AdvancedSection'
 import './PlaceholderView.css'
 import './ExportConfigView.css'
 
@@ -32,6 +34,15 @@ export default function ExportConfigView() {
     if (config.rectoVerso && total % 2 !== 0) total += 1
     return { total, overview, profile, detail }
   }, [state.hike, config, t])
+
+  // Auto-expand Advanced for a returning session that already customized
+  // something in it — otherwise a setting the user deliberately chose would
+  // silently disappear behind a collapsed section with no visible cue.
+  const advancedIsCustomized =
+    config.orientationMode !== defaultExportConfig.orientationMode ||
+    config.rectoVerso !== defaultExportConfig.rectoVerso ||
+    config.foldable !== defaultExportConfig.foldable ||
+    config.dpi !== defaultExportConfig.dpi
 
   return (
     <div className="view export-config-view">
@@ -120,25 +131,6 @@ export default function ExportConfigView() {
           <p className="field-hint">{t('exportConfig.overlapHint')}</p>
         </section>
 
-        <section>
-          <h2>{t('exportConfig.orientationModeTitle')}</h2>
-          <div className="button-row">
-            <button
-              className={config.orientationMode === 'followRoute' ? 'active' : ''}
-              onClick={() => patch({ orientationMode: 'followRoute' })}
-            >
-              {t('exportConfig.orientationFollow')}
-            </button>
-            <button
-              className={config.orientationMode === 'northUp' ? 'active' : ''}
-              onClick={() => patch({ orientationMode: 'northUp' })}
-            >
-              {t('exportConfig.orientationNorthUp')}
-            </button>
-          </div>
-          <p className="field-hint">{t('exportConfig.orientationModeHint')}</p>
-        </section>
-
         {hasMultipleEtapes && (
           <section>
             <h2>{t('exportConfig.scopeTitle')}</h2>
@@ -160,35 +152,56 @@ export default function ExportConfigView() {
           </section>
         )}
 
-        <section>
-          <h2>{t('exportConfig.printTitle')}</h2>
-          <label className="checkbox-row">
-            <input
-              type="checkbox"
-              checked={config.rectoVerso}
-              onChange={(e) => patch({ rectoVerso: e.target.checked })}
-            />
-            {t('exportConfig.rectoVerso')}
-          </label>
-          <p className="field-hint">{t('exportConfig.rectoVersoHint')}</p>
-          <label className="checkbox-row">
-            <input
-              type="checkbox"
-              checked={config.foldable}
-              onChange={(e) => patch({ foldable: e.target.checked })}
-            />
-            {t('exportConfig.foldable')}
-          </label>
-          <p className="field-hint">{t('exportConfig.foldableHint')}</p>
-          <div className="button-row">
-            {[150, 300].map((dpi) => (
-              <button key={dpi} className={config.dpi === dpi ? 'active' : ''} onClick={() => patch({ dpi })}>
-                {dpi === 150 ? t('exportConfig.dpiPreview') : t('exportConfig.dpiQuality')}
+        <AdvancedSection label={t('common.advancedSettings')} defaultOpen={advancedIsCustomized}>
+          <section>
+            <h2>{t('exportConfig.orientationModeTitle')}</h2>
+            <div className="button-row">
+              <button
+                className={config.orientationMode === 'followRoute' ? 'active' : ''}
+                onClick={() => patch({ orientationMode: 'followRoute' })}
+              >
+                {t('exportConfig.orientationFollow')}
               </button>
-            ))}
-          </div>
-          <p className="field-hint">{t('exportConfig.dpiHint')}</p>
-        </section>
+              <button
+                className={config.orientationMode === 'northUp' ? 'active' : ''}
+                onClick={() => patch({ orientationMode: 'northUp' })}
+              >
+                {t('exportConfig.orientationNorthUp')}
+              </button>
+            </div>
+            <p className="field-hint">{t('exportConfig.orientationModeHint')}</p>
+          </section>
+
+          <section>
+            <h2>{t('exportConfig.printTitle')}</h2>
+            <label className="checkbox-row">
+              <input
+                type="checkbox"
+                checked={config.rectoVerso}
+                onChange={(e) => patch({ rectoVerso: e.target.checked })}
+              />
+              {t('exportConfig.rectoVerso')}
+            </label>
+            <p className="field-hint">{t('exportConfig.rectoVersoHint')}</p>
+            <label className="checkbox-row">
+              <input
+                type="checkbox"
+                checked={config.foldable}
+                onChange={(e) => patch({ foldable: e.target.checked })}
+              />
+              {t('exportConfig.foldable')}
+            </label>
+            <p className="field-hint">{t('exportConfig.foldableHint')}</p>
+            <div className="button-row">
+              {[150, 300].map((dpi) => (
+                <button key={dpi} className={config.dpi === dpi ? 'active' : ''} onClick={() => patch({ dpi })}>
+                  {dpi === 150 ? t('exportConfig.dpiPreview') : t('exportConfig.dpiQuality')}
+                </button>
+              ))}
+            </div>
+            <p className="field-hint">{t('exportConfig.dpiHint')}</p>
+          </section>
+        </AdvancedSection>
 
         {pageCount && (
           <p className="page-count-preview">

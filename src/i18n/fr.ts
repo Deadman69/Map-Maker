@@ -51,11 +51,13 @@ export const fr: Dictionary = {
   'editor.poi.trailhead': 'Départ',
   'editor.poi.danger': 'Danger',
   'editor.poi.namedPoint': 'Point nommé',
-  'editor.poi.placingHint': 'Cliquez sur la carte pour placer le point, ou Échap pour annuler.',
+  'editor.poi.placingHint':
+    'Cliquez sur la carte pour placer le point (vous pourrez le nommer juste après), ou Échap pour annuler.',
   'editor.poi.labelPlaceholder': 'Nom (optionnel)',
   'editor.poi.delete': 'Supprimer',
   'editor.poi.cancelPlacement': 'Annuler',
   'editor.poi.close': 'Fermer',
+  'editor.poi.emptyHint': "Aucun point pour l'instant — choisissez un type ci-dessus puis cliquez sur la carte.",
 
   'exportConfig.title': "Format d'export",
   'exportConfig.paperTitle': 'Papier',
@@ -118,6 +120,7 @@ export const fr: Dictionary = {
 
   'common.elevationBadge': (v) => `+${v.gain} m / -${v.loss} m`,
   'common.elevationSummary': (v) => `Rando entière : +${v.gain} m / -${v.loss} m`,
+  'common.advancedSettings': 'Réglages avancés',
 
   'pdf.overviewLabel': "Vue d'ensemble",
   'pdf.overviewLabelPaged': (v) => `Vue d'ensemble ${v.i}/${v.total}`,

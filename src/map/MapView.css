@@ -44,6 +44,27 @@
   padding: 8px 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   white-space: nowrap;
+  /* Anchored to match the OL Overlay's own positioning:'bottom-center' —
+   * the popup should visibly grow from the point it's attached to. */
+  transform-origin: bottom center;
+  transform: scale(1) translateY(0);
+  opacity: 1;
+  transition: transform 160ms var(--ease-out), opacity 160ms var(--ease-out);
+
+  @starting-style {
+    transform: scale(0.95) translateY(4px);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .poi-popup-content {
+    transition: opacity 120ms ease;
+
+    @starting-style {
+      transform: none;
+    }
+  }
 }
 
 .poi-popup-glyph {
